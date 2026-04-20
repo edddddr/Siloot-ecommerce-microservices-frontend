@@ -5,13 +5,15 @@ const HomePage = () => {
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading products</div>;
-
+  
   return (
-    <div>
+    <div> 
       <h1>Products</h1>
-      {data?.map((product) => (
+      {data?.results?.map((product) => (
         <div key={product.id}>{product.name}</div>
-      ))}
+        ))}
+      
+      
     </div>
   );
 };
