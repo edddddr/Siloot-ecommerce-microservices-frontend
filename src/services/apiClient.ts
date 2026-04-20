@@ -1,19 +1,32 @@
 import axios from "axios";
-import { getAccessToken } from "../features/auth/store/auhtStore";
+import {
+  getAccessToken,
+  getRefreshToken,
+  setTokens,
+  clearAuth,
+} from "../features/auth/store/auhtStore";
+import { refreshToken } from "../features/auth/api/refresh";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-// Request interceptor (attach token later)
+let isRefreshing = false;
+let failedQueue: unknown[] = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (token) {
+      prom.resolve(token);
+    } else {
+      prom.reject(error);
+    }
+  });
+  failedQueue = [];
+};
+
 apiClient.interceptors.request.use((config) => {
-  // Example: attach JWT
-  // const token = localStorage.getItem("access_token");
-  // if (token) config.headers.Authorization = `Bearer ${token}`;
-   const token = getAccessToken();
+  const token = getAccessToken();
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -22,11 +35,51 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Response interceptor (handle errors globally)
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // Handle 401 / refresh logic later
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (isRefreshing) {
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then((token) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return apiClient(originalRequest);
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      try {
+        const refresh = getRefreshToken();
+
+        if (!refresh) {
+          clearAuth();
+          window.location.href = "/login";
+          return Promise.reject(error);
+        }
+
+        const data = await refreshToken(refresh);
+
+        setTokens(data.access, data.refresh);
+
+        processQueue(null, data.access);
+
+        originalRequest.headers.Authorization = `Bearer ${data.access}`;
+        return apiClient(originalRequest);
+      } catch (err) {
+        processQueue(err, null);
+        clearAuth();
+        window.location.href = "/login";
+        return Promise.reject(err);
+      } finally {
+        isRefreshing = false;
+      }
+    }
+
     return Promise.reject(error);
   }
 );

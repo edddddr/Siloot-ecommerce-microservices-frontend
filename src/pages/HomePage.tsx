@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <div> 
       <h1>Products</h1>
-      {data?.results?.map((product) => (
+      {data.results?.map((product) => (
         <div key={product.id}>{product.name}</div>
         ))}
       

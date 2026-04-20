@@ -7,3 +7,8 @@ export interface User {
   id: string;
   email: string;
 }
+
+export type AuthContextType = {
+  isAuthenticated: boolean;
+  logout: () => void;
+};
