@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { useLogin } from "../features/auth/hooks/useLogin";
+import { useRegister } from "../features/auth/hooks/useRegister";
+import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
-  const { mutate, isPending } = useLogin();
+const RegisterPage = () => {
+  const { mutate, isPending } = useRegister();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,12 +12,20 @@ const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    mutate({ email, password });
-};
+    mutate(
+      { email, password },
+      {
+        onSuccess: () => {
+          // After register → go to login
+          navigate("/login");
+        },
+      }
+    );
+  };
 
   return (
     <div className="p-4">
-      <h1>Login</h1>
+      <h1>Register</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <input
@@ -34,20 +44,12 @@ const LoginPage = () => {
           className="border p-2"
         />
 
-        <button type="submit" className="bg-blue-500 text-white p-2">
-          {isPending ? "Loading..." : "Login"}
+        <button type="submit" className="bg-green-500 text-white p-2">
+          {isPending ? "Creating..." : "Register"}
         </button>
-
-            <p>
-      Don’t have an account?{" "}
-      <a href="/register" className="text-blue-500">
-        Register
-      </a>
-    </p>
-    
       </form>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
