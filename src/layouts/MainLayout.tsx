@@ -1,19 +1,15 @@
 import type { ReactNode } from "react";
-import { useAuth } from "../features/auth/hooks/useAuth";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
-  const { logout } = useAuth();
-
   return (
-    <div>
-      <nav className="flex justify-between p-4 bg-gray-200">
-        <h1>E-Commerce</h1>
-        <button onClick={logout} className="bg-red-500 text-white px-3 py-1">
-          Logout
-        </button>
-      </nav>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
 
-      <main className="p-4">{children}</main>
+      <main className="flex-1 p-4">{children}</main>
+
+      <Footer />
     </div>
   );
 };

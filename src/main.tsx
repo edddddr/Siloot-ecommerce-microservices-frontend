@@ -9,7 +9,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AppProviders>
       <AuthProvider>
-      <App />
+        <App />
       </AuthProvider>
     </AppProviders>
   </React.StrictMode>

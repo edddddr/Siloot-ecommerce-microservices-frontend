@@ -55,6 +55,7 @@ apiClient.interceptors.response.use(
 
       try {
         const refresh = getRefreshToken();
+        console.log("Refresh_token = ", !refresh)
 
         if (!refresh) {
           clearAuth();
