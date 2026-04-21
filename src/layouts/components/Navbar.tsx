@@ -9,12 +9,15 @@ const Navbar = () => {
 
       <div className="flex gap-3">
         {isAuthenticated ? (
+        <>
+          <a href="/cart">Cart</a>
           <button
             onClick={logout}
             className="bg-red-500 text-white px-3 py-1"
-          >
+            >
             Logout
           </button>
+        </>
         ) : (
           <>
             <a href="/login">Login</a>

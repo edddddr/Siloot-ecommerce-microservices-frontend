@@ -4,7 +4,7 @@ import type { JSX } from "react";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const token = getAccessToken();
-  console.log(token)
+  // console.log(token)
 
   if (!token) {
     return <Navigate to="/login" />;
