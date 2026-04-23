@@ -1,0 +1,1 @@
+export { default as AppleIcon } from '../../../public/apple-icon.png';

@@ -1,0 +1,1 @@
+export { default as Iphone14 } from '../../../public/iphone-14.png';
