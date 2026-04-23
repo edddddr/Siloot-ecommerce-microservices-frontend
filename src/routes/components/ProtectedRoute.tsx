@@ -3,12 +3,12 @@ import { getAccessToken } from "../../features/auth/store/auhtStore";
 import type { JSX } from "react";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const token = getAccessToken();
+  // const token = getAccessToken();
   // console.log(token)
 
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+  // if (!token) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return children;
 };
