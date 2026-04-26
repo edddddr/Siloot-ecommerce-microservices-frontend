@@ -1,4 +1,4 @@
-// import { useAuth } from "../../features/auth/hooks/useAuth";
+import { useAuth } from "../../features/auth/hooks/useAuth";
 
 // const Navbar = () => {
 //   const { isAuthenticated, logout } = useAuth();
@@ -32,10 +32,12 @@
 
 
 import { Search, Heart, ShoppingCart, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom"; // Assuming you're using react-router
+import { Link, NavLink } from "react-router-dom"; // Assuming you're using react-router
 // import { Button } from "../shared/components/Button";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+
   return (
     <header className="w-full">
       {/* --- Section 1: Top Announcement Bar --- */}
@@ -74,7 +76,15 @@ const Navbar = () => {
             <li><Link to="/" className="hover:underline underline-offset-4 transition-all">Home</Link></li>
             <li><Link to="/contact" className="hover:underline underline-offset-4 transition-all">Contact</Link></li>
             <li><Link to="/about" className="hover:underline underline-offset-4 transition-all">About</Link></li>
-            <li><Link to="/signup" className="hover:underline underline-offset-4 transition-all">Sign Up</Link></li>
+            {!isAuthenticated ? (
+              
+            <li><Link to="/signup" className="hover:underline 
+            underline-offset-4 transition-all">Sign Up</Link></li>
+            
+            ):(
+              <NavLink to="/login" onClick={logout} className="hover:underline 
+            underline-offset-4 transition-all">Logout</NavLink>
+             )}
           </ul>
 
           {/* 3. Actions (Search, Heart, Cart) */}
@@ -92,6 +102,8 @@ const Navbar = () => {
               />
             </div>
 
+            {isAuthenticated && (
+            <>
             {/* Icon Buttons */}
             <div className="flex items-center gap-4">
               <button className="relative hover:scale-110 transition-transform">
@@ -107,6 +119,7 @@ const Navbar = () => {
                 <span className="absolute -top-1 -right-1 bg-btn-danger text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">5</span>
               </Link >
             </div>
+            </>)}
           </div>
 
         </div>
