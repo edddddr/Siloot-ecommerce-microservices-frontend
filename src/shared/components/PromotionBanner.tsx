@@ -1,6 +1,7 @@
 import { Button } from "./Button";
+import { Jbl } from "../../assets/images/index"
 
-export const PromotionBanner = () => {
+const PromotionBanner = () => {
   // Data for the countdown timer circles
   const timerData = [
     { label: "Days", value: "05" },
@@ -35,7 +36,7 @@ export const PromotionBanner = () => {
             {timerData.map((item) => (
               <div 
                 key={item.label}
-                className="w-16 h-16 md:w-20 md:h-20 bg-brand-white rounded-full flex flex-col items-center justify-center shadow-lg"
+                className="w-16 h-16 md:w-19 md:h-19 bg-brand-white rounded-full flex flex-col items-center justify-center shadow-lg"
               >
                 <span className="text-content-dark font-bold text-lg leading-tight">
                   {item.value}
@@ -58,7 +59,7 @@ export const PromotionBanner = () => {
           {/* Image Displayer Placeholder */}
           <div className="w-full aspect-square md:aspect-auto flex items-center justify-center group">
             <img 
-              src="/path-to-your-speaker-image.png" 
+              src={Jbl} 
               alt="Speaker" 
               className="object-contain w-full max-h-[400px] drop-shadow-[0_20px_50px_rgba(255,255,255,0.2)] transition-transform duration-500 group-hover:scale-105"
             />
@@ -69,3 +70,6 @@ export const PromotionBanner = () => {
     </section>
   );
 };
+
+
+export default PromotionBanner

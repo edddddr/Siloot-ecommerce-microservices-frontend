@@ -8,9 +8,9 @@ import {
 import { refreshToken } from "../features/auth/api/refresh";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL
 });
-
+  
 let isRefreshing = false;
 let failedQueue: unknown[] = [];
 
