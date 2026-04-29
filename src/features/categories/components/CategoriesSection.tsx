@@ -85,9 +85,8 @@ const CategoriesSection = () => {
           ) : (
             /* --- CASE 2: Actual Data --- */
             allCategories.map((category) => (
-              <Link to={`/category/${category.slug}`}>
+              <Link key={category.id}  to={`/category/${category.slug}`}>
               <div 
-                key={category.id} 
                 className="min-w-[calc(50%-8px)] md:min-w-[calc(25%-12px)] lg:min-w-[calc(16.666%-14px)]"
               >
                 <CategoryCard 

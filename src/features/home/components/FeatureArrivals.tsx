@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Speaker, Playstation, Hat, Gucci } from "../../../assets/images/index"
 
 // Shared Overlay Component to keep code DRY and professional
 const ArrivalOverlay = ({ title, subtitle }: { title: string; subtitle: string }) => (
@@ -27,7 +28,7 @@ export const FeaturedArrivals = () => {
         {/* --- Column 1: PS5 (Large Vertical Block) --- */}
         <div className="relative bg-btn-black rounded overflow-hidden group flex items-end justify-center">
           <img 
-            src="/ps5-arrival.png" 
+            src={Playstation}
             alt="PlayStation 5" 
             className="w-4/5 h-4/5 object-contain transition-transform duration-500 group-hover:scale-105"
           />
@@ -44,7 +45,7 @@ export const FeaturedArrivals = () => {
           <div className="relative bg-[#0D0D0D] rounded overflow-hidden group flex items-center justify-end">
              {/* Note: Aligned image to the right/end to leave room for text on the left */}
             <img 
-              src="/women-collection.png" 
+              src={Hat}
               alt="Women's Collection" 
               className="h-full w-2/3 object-cover transition-transform duration-500 group-hover:scale-105"
             />
@@ -59,7 +60,7 @@ export const FeaturedArrivals = () => {
             {/* Speakers */}
             <div className="relative bg-btn-black rounded overflow-hidden group flex items-center justify-center">
               <img 
-                src="/speakers.png" 
+                src={Speaker} 
                 alt="Speakers" 
                 className="w-2/3 h-2/3 object-contain transition-transform duration-500 group-hover:scale-105"
               />
@@ -74,7 +75,7 @@ export const FeaturedArrivals = () => {
             {/* Perfume */}
             <div className="relative bg-btn-black rounded overflow-hidden group flex items-center justify-center">
               <img 
-                src="/perfume.png" 
+                src={Gucci} 
                 alt="Perfume" 
                 className="w-2/3 h-2/3 object-contain transition-transform duration-500 group-hover:scale-105"
               />

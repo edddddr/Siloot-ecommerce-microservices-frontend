@@ -5,6 +5,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RegisterPage from "../pages/RegisterPage";
 import MainLayout from "../layouts/MainLayout";
 import CartPage from "../pages/CartPage";
+import ProductDetailsPage from "../features/products/components/ProductDetailsPage";
 
 
 export const router = createBrowserRouter([
@@ -46,7 +47,17 @@ export const router = createBrowserRouter([
         </MainLayout>
       </ProtectedRoute>
       ),
+    },
+    {
+
+    path:"/product/:slug",
+    element:(
+      <MainLayout>
+      <ProductDetailsPage />
+      </MainLayout>)
     }
+
+    
 
 ]); 
 

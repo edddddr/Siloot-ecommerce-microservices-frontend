@@ -8,3 +8,5 @@ export const useProducts = () => {
     queryFn: getProducts,
   });
 };
+
+

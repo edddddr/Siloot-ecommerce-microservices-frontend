@@ -100,33 +100,3 @@ export const ProductCard = ({
   );
 };
 
-
-// Use this for to confirm the component is work
-// src/App.tsx
-// import { ProductCard } from "./components/ProductCard";
-
-// const MOCK_PRODUCTS = [
-//   { id: '1', name: 'HAVIT HV-G92 Gamepad', price: '$120', rating: 4.5, badgeText: '-40%', badgeType: 'discount' as const, image: 'https://placehold.co' },
-//   { id: '2', name: 'AK-900 Wired Keyboard', price: '$960', rating: 4, badgeText: '-35%', badgeType: 'discount' as const, image: 'https://placehold.co' },
-//   { id: '3', name: 'IPS LCD Gaming Monitor', price: '$370', rating: 5, badgeText: 'NEW', badgeType: 'new' as const, image: 'https://placehold.co' },
-//   { id: '4', name: 'S-Series Comfort Chair', price: '$375', rating: 4.5, image: 'https://placehold.co' },
-// ];
-
-// export default function TestPage() {
-//   return (
-//     <div className="p-10 bg-white min-h-screen">
-//       <h1 className="text-2xl font-bold mb-8">Product Grid Test</h1>
-      
-//       {/* Testing responsiveness and grid gaps */}
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-//         {MOCK_PRODUCTS.map((product) => (
-//           <ProductCard 
-//             key={product.id} 
-//             {...product} 
-//             className="border border-transparent hover:border-gray-100 p-2 rounded-lg" // Testing className override
-//           />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
