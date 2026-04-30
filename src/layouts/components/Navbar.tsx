@@ -76,6 +76,7 @@ const Navbar = () => {
             <li><Link to="/" className="hover:underline underline-offset-4 transition-all">Home</Link></li>
             <li><Link to="/contact" className="hover:underline underline-offset-4 transition-all">Contact</Link></li>
             <li><Link to="/about" className="hover:underline underline-offset-4 transition-all">About</Link></li>
+
             {!isAuthenticated ? (
               
             <li><Link to="/signup" className="hover:underline 

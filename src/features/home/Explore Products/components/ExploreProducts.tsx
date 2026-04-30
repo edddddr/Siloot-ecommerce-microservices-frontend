@@ -31,13 +31,14 @@ const ExploreProducts = () => {
             ))
           ) : (
             data?.map((product) => (
-            <Link key={product.id}  to={`/product/${product.slug}`}>
-              <ProductCard
+            
+              <ProductCard key={product.id}
+                id={product.id}
                 name={product.name}
                 price={product.price}
                 image={product.images[0].image_url}
+                slug={product.slug}  
               />
-              </Link>
             ))
           )}
         </div>

@@ -2,6 +2,7 @@ import { Heart, Eye, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { useAddToCart } from "../../features/cart/hooks/useAddToCart";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -12,20 +13,26 @@ interface ProductCardProps {
   name: string;
   price: string;
   image: string;
+  slug: string;
   rating: number;
   badgeText?: string;
   badgeType?: "discount" | "new";
 }
 
 export const ProductCard = ({
-//   id,    
+  id,    
   name,
   price,
   image,
   rating,
   badgeText,
+  slug,
   badgeType = "discount",
 }: ProductCardProps) => {
+
+  const { mutate, isPending } = useAddToCart();
+
+
   return (
     <div className="flex flex-col gap-4 w-full group cursor-pointer">
       {/* --- Section 1: Image & Overlay Actions --- */}
@@ -42,8 +49,8 @@ export const ProductCard = ({
         )}
 
         {/* Top Right: Actions (Wishlist & View) */}
-        <div className="absolute top-3 right-3 flex flex-col gap-2">
-            <Link 
+        <div className="absolute top-3 right-3 flex flex-col gap-2 z-20">
+          <Link 
               to="/wishList">
           <button className="bg-white p-1.5 rounded-full shadow-sm hover:text-btn-danger transition-colors">
             <Heart size={20} />
@@ -55,6 +62,11 @@ export const ProductCard = ({
           </button>
         </div>
 
+        <Link 
+          to={`/product/${slug}`} 
+          className="absolute inset-0 z-10" 
+        />
+
         {/* Product Image */}
         <img 
           src={image} 
@@ -63,8 +75,19 @@ export const ProductCard = ({
         />
 
         {/* Professional Detail: Hidden "Add to Cart" that slides up on hover */}
-        <button className="absolute bottom-0 w-full bg-btn-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium">
-          Add To Cart
+        <button 
+          disabled={isPending} // Disable while loading
+          className={cn(
+            "absolute bottom-0 w-full text-white py-2 opacity-0 group-hover:opacity-100 transition-all text-sm font-medium z-20",
+            isPending ? "bg-gray-500 cursor-not-allowed" : "bg-btn-black hover:bg-gray-800"
+          )}
+          onClick={(e) => {
+            e.preventDefault(); // Prevents any link wrapper behavior
+            e.stopPropagation(); // 🚀 THIS STOPPED THE REDIRECT
+            mutate({ product_id: id, quantity: 1 });
+          }}
+        >
+          {isPending ? "Adding..." : "Add To Cart"}
         </button>
       </div>
 
