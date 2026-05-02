@@ -19,19 +19,21 @@ interface ProductCardProps {
   badgeType?: "discount" | "new";
 }
 
+
+
 export const ProductCard = ({
   id,    
   name,
   price,
   image,
-  rating,
+  rating = 3,
   badgeText,
   slug,
   badgeType = "discount",
 }: ProductCardProps) => {
 
   const { mutate, isPending } = useAddToCart();
-
+  
 
   return (
     <div className="flex flex-col gap-4 w-full group cursor-pointer">

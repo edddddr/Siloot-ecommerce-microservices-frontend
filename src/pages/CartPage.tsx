@@ -39,11 +39,64 @@ import { useUpdateCart } from "../../src/features/cart/hooks/useUpdateCart";
 import { Button } from "../shared/components/Button";
 import { Link } from "react-router-dom";
 import { Trash2 } from "lucide-react"; // For removing items
+import { useCreateOrder } from "../features/order/hooks/useCreateOrder";
+import { getPaymentDetail } from "../features/payment/api/getPaymentDetail";
+
+
 
 const CartPage = () => {
   const { data, isLoading } = useCart();
   const { mutate: removeItem } = useRemoveFromCart();
   const { mutate: updateCart } = useUpdateCart();
+
+  const waitForPayment = async (orderId: string, retries = 10) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const payment = await getPaymentDetail(orderId);
+
+      if (payment?.checkout_url) {
+        return payment;
+      }
+    } catch (err: any) {
+      if (err.response?.status !== 404) {
+        throw err; // real error
+      }
+    }
+
+    // wait 1 second before retry
+    await new Promise((res) => setTimeout(res, 1000));
+  }
+
+  throw new Error("Payment not ready");
+};
+  
+  const createOrder = useCreateOrder();
+  
+
+  const handleCheckout = async () => {
+  // 1. Extract and transform the data
+  const orderData = {
+    user_id: data.user_id,
+    items: data.items.map((item) => ({
+      product_id: item.product_id,
+      quantity: item.quantity,
+      price: item.price,
+    })),
+  };
+
+  // 2. Pass the transformed data to the mutation
+  try {
+    const order = await createOrder.mutateAsync(orderData);
+    console.log(order.id)
+    const payment = await waitForPayment(order.id);
+    console.log(payment.id)
+
+
+     window.location.href = payment.checkout_url;
+  } catch { 
+    alert("Checkout failed");
+  }
+};
 
   const handleQuantityChange = (id: string, currentQty: number, delta: number) => {
     const newQty = currentQty + delta;
@@ -54,13 +107,32 @@ const CartPage = () => {
 
 
 
+
   if (isLoading) return <div className="py-20 text-center">Loading Cart...</div>;
 
   const subtotal = data?.items.reduce((acc, item) => acc + (item.price * item.quantity), 0) || 0;
   const shipping = subtotal > 0 ? 0 : 0; // Logic for free shipping
   const total = subtotal + shipping;
 
+
+
+
   return (
+
+    ((!data?.items || data.items.length === 0) ?
+     <> 
+    <div className="max-w-7xl mx-auto px-4 py-32 text-center flex flex-col items-center gap-6">
+      <h2 className="text-2xl font-medium">Your cart is empty</h2>
+      <p className="text-content-muted">Looks like you haven't added anything to your cart yet.</p>
+      <Link to="/">
+        <Button variant="danger" className="px-10 py-4 bg-[#DB4444] text-white">
+          Go Shopping
+        </Button>
+      </Link>
+    </div>
+    </> 
+    :
+    <> 
     <main className="max-w-7xl mx-auto px-4 py-20">
       <div className="flex flex-col lg:flex-row gap-20 items-start">
         
@@ -166,13 +238,15 @@ const CartPage = () => {
           <Button 
             variant="danger" 
             className="w-full py-4 bg-[#DB4444] text-white rounded font-medium mt-2"
+             onClick={handleCheckout}
           >
-            Process to Checkout
+            {createOrder.isPending ? "Processing..." : "Process to Checkout"}
           </Button>
         </div>
 
       </div>
     </main>
+    </>)
   );
 };
 

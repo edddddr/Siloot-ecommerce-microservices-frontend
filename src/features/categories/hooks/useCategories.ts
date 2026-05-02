@@ -6,6 +6,6 @@ export const useCategories = (cursor: string | null) => {
     queryKey: ["categories", cursor],
     queryFn: () => getCategories(cursor || undefined),
     keepPreviousData: true,
-    // placeholderData: (previousData) => previousData,wwwwwww
+    // placeholderData: (previousData) => previousData
   });
 };

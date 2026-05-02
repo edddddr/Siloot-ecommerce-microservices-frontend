@@ -5,4 +5,5 @@ export { default as Hat } from '../../../public/attractive-woman-wearing-hat-pos
 export { default as Gucci } from '../../../public/gucci.png';
 export { default as Playstation } from '../../../public/ps5-slim-goedkope-playstation_large 1.png';
 export { default as Speaker } from '../../../public/speaker.png';
+export { default as aboutImage } from '../../../public/portrait-two-african-females-holding-shopping-bags-while-reacting-something-their-smartphone 1.png';
 // export { default as Jbl } from '../../../public/';

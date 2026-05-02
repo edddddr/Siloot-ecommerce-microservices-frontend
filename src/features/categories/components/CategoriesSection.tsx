@@ -85,7 +85,7 @@ const CategoriesSection = () => {
           ) : (
             /* --- CASE 2: Actual Data --- */
             allCategories.map((category) => (
-              <Link key={category.id}  to={`/category/${category.slug}`}>
+              <Link key={category.id}  to={`/category/${category.id}`}>
               <div 
                 className="min-w-[calc(50%-8px)] md:min-w-[calc(25%-12px)] lg:min-w-[calc(16.666%-14px)]"
               >
